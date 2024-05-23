@@ -6,46 +6,70 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.control.Button
 import javafx.stage.Stage
+import javafx.stage.FileChooser
+import java.io.File
+import javafx.event.ActionEvent
 import java.io.IOException
 
 class MainMenuController {
     @FXML
     var loreBoton: Button = Button()
+
     @FXML
     var jugarBoton: Button = Button()
+
     @FXML
     var rankingBoton: Button = Button()
+
     @FXML
     var salirBoton: Button = Button()
 
-   fun mainMenu() {
-            try {
-                val stage = loreBoton.getScene().getWindow() as Stage
-                val fxmlLoader = FXMLLoader(Main::class.java.getResource("main-menu.fxml"))
-                val scene = Scene(fxmlLoader.load())
-                stage.scene = scene
+    fun mainMenu() {
+        try {
 
-                loreBoton.setOnAction {
-                    //Explorador de archivos para .txt y reflejar el título en el boton
-                }
-
-                jugarBoton.setOnAction{
-                    //si el archivo está cargado, ir a la siguiente pantalla
-
-                }
-
-                rankingBoton.setOnAction{
-                    //ir al ranking
-                }
-
-                salirBoton.setOnAction{
-                    Platform.exit()
-                }
-
-            } catch (e: IOException) {
-                e.printStackTrace()
+            loreBoton.setOnAction {
+                explorarArchivos()
             }
-        }
 
+            jugarBoton.setOnAction {
+                //si el archivo está cargado, ir a la siguiente pantalla
+
+            }
+
+            rankingBoton.setOnAction {
+                //ir al ranking
+            }
+
+            salirBoton.setOnAction {
+                salir()
+            }
+
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+
+
+
+ fun explorarArchivos(): ActionEvent? {
+    val fileChooser = FileChooser()
+    fileChooser.initialDirectory = File(System.getProperty("user.home"))
+
+    val extFilter = FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt")
+    fileChooser.extensionFilters.add(extFilter)
+
+    val file = fileChooser.showOpenDialog(null)
+
+    if (file != null) {
+        println(file.absolutePath)
+        loreBoton.text = "Lore: ${file.name}"
+    }
+
+    return null
+}
+
+    fun salir(){
+        Platform.exit()
+    }
 
 }

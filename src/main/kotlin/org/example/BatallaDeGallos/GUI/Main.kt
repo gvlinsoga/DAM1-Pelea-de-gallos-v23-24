@@ -10,6 +10,7 @@ class Main : Application() {
     @Throws(IOException::class)
     override fun start(stage: Stage) {
         val fxmlLoader = FXMLLoader(Main::class.java.getResource("main-menu.fxml"))
+        println("aaaaaaaadfsdhguidhfhhxndf")
         val scene = Scene(fxmlLoader.load())
         stage.title = "Batalla de Gallos - Menú Principal"
         stage.scene = scene
@@ -19,10 +20,8 @@ class Main : Application() {
         controller.mainMenu()
     }
 
-    companion object {
-        @JvmStatic
-        fun main(args: Array<String>) {
-            launch()
-        }
-    }
+}
+
+fun main(args: Array<String>) {
+    Application.launch(Main::class.java, *args)
 }

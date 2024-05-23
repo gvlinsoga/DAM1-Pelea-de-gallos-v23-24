@@ -22,6 +22,6 @@ module org.example.dam1peleadegallosv2324 {
     requires io.ktor.serialization.kotlinx.json;
     requires io.ktor.http;
 
-    opens org.example.BatallaDeGallos to javafx.fxml;
-    exports org.example.BatallaDeGallos;
+    opens org.example.BatallaDeGallos.GUI to javafx.fxml;
+    exports org.example.BatallaDeGallos.GUI;
 }
