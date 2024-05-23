@@ -1,0 +1,81 @@
+/* Estilo para el botón de jugar */
+.button, #button {
+  background-color: #FEF3C7; /* Cambio a un tono amarillo claro */
+  border-radius: 100px;
+  box-shadow: rgba(254, 204, 22, .2) 0 -25px 18px -14px inset, rgba(254, 204, 22, .15) 0 1px 2px, rgba(254, 204, 22, .15) 0 2px 4px, rgba(254, 204, 22, .15) 0 4px 8px, rgba(254, 204, 22, .15) 0 8px 16px, rgba(254, 204, 22, .15) 0 16px 32px;
+  color: #FECC16; /* Color principal */
+  cursor: pointer;
+  display: inline-block;
+  /*font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif; */
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button:hover {
+  box-shadow: rgba(254, 204, 22, .35) 0 -25px 18px -14px inset, rgba(254, 204, 22, .25) 0 1px 2px, rgba(254, 204, 22, .25) 0 2px 4px, rgba(254, 204, 22, .25) 0 4px 8px, rgba(254, 204, 22, .25) 0 8px 16px, rgba(254, 204, 22, .25) 0 16px 32px;
+ /* transform: scale(1.05) rotate(-1deg)*/
+  ;
+}
+
+/* Estilo para las imágenes con id "player1pfp" y "player2pfp" */
+#player1pfp, #player2pfp {
+  -fx-effect: dropshadow(gaussian, #FECC16, 40, 0.5, 0, 0);
+}
+
+
+/* Estilo para los desplegables characterPlayer1 y characterPlayer2 */
+#characterMenuButton {
+  background-color: #FEF3C7; /* Mismo color principal */
+  border-radius: 100px;
+  box-shadow: rgba(254, 204, 22, .2) 0 -25px 18px -14px inset, rgba(254, 204, 22, .15) 0 1px 2px, rgba(254, 204, 22, .15) 0 2px 4px, rgba(254, 204, 22, .15) 0 4px 8px, rgba(254, 204, 22, .15) 0 8px 16px, rgba(254, 204, 22, .15) 0 16px 32px;
+  color: #FECC16;
+  cursor: pointer;
+  display: inline-block;
+  font-family: CerebriSans-Regular, -apple-system, system-ui, Roboto, sans-serif;
+  padding: 7px 20px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 250ms;
+  border: 0;
+  font-size: 20px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+#characterMenuButton:hover {
+  box-shadow: rgba(254, 204, 22, .35) 0 -25px 18px -14px inset, rgba(254, 204, 22, .25) 0 1px 2px, rgba(254, 204, 22, .25) 0 2px 4px, rgba(254, 204, 22, .25) 0 4px 8px, rgba(254, 204, 22, .25) 0 8px 16px, rgba(254, 204, 22, .25) 0 16px 32px;
+  transform: scale(1.05) rotate(-1deg);
+}
+
+/* Estilo para el ToggleButton */
+.toggle-button {
+  -fx-background-color: #FECC16; /* Color amarillo cuando está inactivo */
+  -fx-text-fill: black;
+  -fx-font-size: 16px;
+  -fx-padding: 7px 20px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 250ms;
+}
+
+.toggle-button:pressed {
+  -fx-background-color: #293178; /* Azul para readyPlayer1 */
+}
+
+.toggle-button:selected {
+  -fx-background-color: #07dd5d; /* Rojo para readyPlayer2 */
+}
+/* Estilo para los desplegables characterMenuButton1 y characterMenuButton2 */
+#characterMenuButton1, #characterMenuButton2 {
+  background-color: #FEF3C7; /* Mismo color principal */
+  border-radius: 100px;
+  box-shadow: rgba(254, 204, 22, .2) 0 -25px 18px -14px inset, rgba(254, 204, 22, .15) 0 1px 2px, rgba(254, 204, 22, .15) 0 2px 4px, rgba(254, 204, 22, .15) 0 4px 8px, rgba(254, 204, 22, .15) 0 8px 16px, rgba(254, 204, 22, .15) 0 16px 32
+}
