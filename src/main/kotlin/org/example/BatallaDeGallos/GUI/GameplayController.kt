@@ -6,11 +6,11 @@ import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
 
-class Escenario : Application() {
+class GameplayController : Application() {
 
     override fun start(primaryStage: Stage?) {
-        val root: Parent = FXMLLoader.load(javaClass.getResource("/gui/arena.fxml"))
-        primaryStage?.title = "Pelea de Gallos - Arena"
+        val root: Parent = FXMLLoader.load(javaClass.getResource("/resources/gameplay.fxml"))
+        primaryStage?.title = "Batalla de Gallos - Arena"
         primaryStage?.scene = Scene(root)
         primaryStage?.show()
     }
@@ -18,7 +18,9 @@ class Escenario : Application() {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            launch(Escenario::class.java)
+            launch(GameplayController::class.java)
         }
     }
+
+
 }
