@@ -5,6 +5,6 @@ package org.example.BatallaDeGallos.Model
         val fecha: String,
         val participante1Id: Int,
         val participante2Id: Int,
-        val palabrasUtilizadas: String,
+        val palabrasUtilizadas: MutableList<String>,
         val ganadorId: Int
     )

@@ -12,6 +12,15 @@ module org.example.dam1peleadegallosv2324 {
     requires eu.hansolo.tilesfx;
     requires com.almasb.fxgl.all;
     requires java.sql;
+    requires org.mongodb.driver.kotlin.coroutine;
+    requires org.mongodb.driver.reactivestreams;
+    requires org.mongodb.bson;
+    requires org.mongodb.driver.sync.client;
+    requires io.ktor.server.netty;
+    requires io.ktor.server.core;
+    requires io.ktor.server.content.negotiation;
+    requires io.ktor.serialization.kotlinx.json;
+    requires io.ktor.http;
 
     opens org.example.BatallaDeGallos to javafx.fxml;
     exports org.example.BatallaDeGallos;

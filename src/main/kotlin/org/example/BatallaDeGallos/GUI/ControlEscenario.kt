@@ -14,12 +14,12 @@ class ArenaController {
 
     private val rutaArchivo = "/Users/adrian.galinsoga/Desktop/DAM1-Pelea-de-gallos-v23-24/src/main/kotlin/org/example/BatallaDeGallos/Persistence/TirantLoBlanc_Caps1_99.txt"
 
-    fun iniciarBatalla() {
+    /*fun iniciarBatalla() {
         val archivoHandler = Palabras(rutaArchivo)
         val palabrasUnicas = archivoHandler.obtenerPalabrasUnicas()
 
         comboBoxJugador1.items.addAll(palabrasUnicas.shuffled())
         comboBoxJugador2.items.addAll(palabrasUnicas.shuffled())
-    }
+    }*/
 }
 

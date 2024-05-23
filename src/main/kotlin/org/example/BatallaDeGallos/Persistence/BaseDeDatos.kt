@@ -1,109 +1,101 @@
-import java.sql.Connection
-import java.sql.DriverManager
-import java.sql.SQLException
+package org.example.BatallaDeGallos.Persistence
 
-class BaseDeDatosHandler(private val rutaBaseDeDatos: String) {
+import com.mongodb.client.MongoClient
+import com.mongodb.client.MongoClients
+import com.mongodb.client.MongoCollection
+import com.mongodb.client.MongoDatabase
+import org.bson.Document
+import org.example.BatallaDeGallos.Model.Batalla
+import org.example.BatallaDeGallos.Model.Palabras
+import org.example.BatallaDeGallos.Model.Participante
 
-    private var connection: Connection? = null
+class Mongo {
+    var mongoClient: MongoClient? = null  // Client de MongoDB
+    var database: MongoDatabase? = null    // Base de dades MongoDB
 
-    init {
-        conectar()
-        crearTablas()
+    // Mètode per establir una connexió amb la base de dades MongoDB
+    fun connexioBD() {
+        // URL de connexió a MongoDB
+        val mongoUrl = "mongodb+srv://alejandromorcillo7e7:BaseMongo@clustergallos.cahzq69.mongodb.net/?retryWrites=true&w=majority&appName=ClusterGallos"
+        // Crea un client de MongoDB utilitzant la URL proporcionada
+        mongoClient = MongoClients.create(mongoUrl)
+        // Obre la base de dades especificada
+        database = mongoClient!!.getDatabase("Data")
     }
 
-    private fun conectar() {
-        try {
-            Class.forName("org.sqlite.JDBC")
-            connection = DriverManager.getConnection("jdbc:sqlite:$rutaBaseDeDatos")
-            println("Conexión establecida con la base de datos")
-        } catch (ex: ClassNotFoundException) {
-            ex.printStackTrace()
-        } catch (ex: SQLException) {
-            ex.printStackTrace()
+    // Mètode per inserir un document a una col·lecció de la base de dades MongoDB
+    fun insereix(colleccio: String, objecte: Any) {
+        // Obté la col·lecció de la base de dades
+        val colLeccio: MongoCollection<Document> = database!!.getCollection(colleccio)
+        // Crea un document MongoDB segons el tipus d'objecte passat com a paràmetre
+        val document = when(objecte) {
+            is Batalla -> Document(
+                mapOf(
+                    "id" to objecte.id,
+                    "fecha" to objecte.fecha,
+                    "participante1Id" to objecte.participante1Id,
+                    "participante2Id" to objecte.participante2Id,
+                    "palabrasUtilizadas" to objecte.palabrasUtilizadas,
+                    "ganadorId" to objecte.ganadorId
+                )
+            )
+            is Participante -> Document(
+                mapOf(
+                    "id" to objecte.id,
+                    "nombre" to objecte.nombre,
+                    "urlFotoPerfil" to objecte.urlFotoPerfil,
+                )
+            )
+            is Palabras -> Document(
+                mapOf(
+                    "palabrasDisponibles" to objecte.palabrasDisponibles,
+                )
+            )
+            else -> throw Exception("Object not found") // Llança una excepció si l'objecte no es troba
+        }
+        println(document) // Mostra el document abans de ser inserit per a propòsits de depuració
+        // Insereix el document a la col·lecció
+        colLeccio.insertOne(document)
+    }
+
+    fun retrieve(colleccio: String, filter: Document, clazz: String): List<Any> {
+        // Obté la col·lecció de la base de dades
+        val colLeccio: MongoCollection<Document> = database!!.getCollection(colleccio)
+        // Cerca els documents segons el filtre proporcionat
+        val documents = colLeccio.find(filter).toList()
+        // Converteix els documents en objectes Kotlin
+        val objects = documents.map { document ->
+            when (clazz) {
+                "Batalla" -> Batalla(
+                    id = document.getInteger("id"),
+                    fecha = document.getString("fecha"),
+                    participante1Id = document.getInteger("participante1Id"),
+                    participante2Id = document.getInteger("participante2Id"),
+                    palabrasUtilizadas = document.getList("palabrasUtilizadas", String::class.java),
+                    ganadorId = document.getInteger("ganadorId")
+                )
+                "Participantes" -> Participante(
+                    id = document.getInteger("id"),
+                    nombre = document.getString("nombre"),
+                    urlFotoPerfil = document.getString("urlFotoPerfil")
+                )
+                "Palabras" -> Palabras(
+                    palabrasDisponibles = document.getList("palabrasDisponibles", String::class.java)
+                )
+                else -> throw Exception("Unsupported class")
+            }
+        }
+        return objects
+    }
+
+    // Mètode per tancar la connexió amb la base de dades MongoDB
+    fun desconnexioBD() {
+        // Verifica si hi ha una connexió vàlida abans de tancar-la
+        if (mongoClient != null) {
+            mongoClient!!.close()
+        } else {
+            // Llança una excepció si no hi ha cap connexió disponible per tancar
+            throw Exception("There is no connection")
         }
     }
-
-    private fun crearTablas() {
-        crearTablaPalabras()
-        crearTablaParticipantes()
-        crearTablaBatallas()
-    }
-
-    private fun crearTablaPalabras() {
-        val sql = """
-            CREATE TABLE IF NOT EXISTS Palabras (
-                palabra TEXT PRIMARY KEY
-            );
-        """.trimIndent()
-
-        ejecutarSQL(sql, "Tabla Palabras")
-    }
-
-    private fun crearTablaParticipantes() {
-        val sql = """
-            CREATE TABLE IF NOT EXISTS Participantes (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nombre TEXT,
-                urlFotoPerfil TEXT
-            );
-        """.trimIndent()
-
-        ejecutarSQL(sql, "Tabla Participantes")
-    }
-
-    private fun crearTablaBatallas() {
-        val sql = """
-            CREATE TABLE IF NOT EXISTS Batallas (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                fecha TEXT,
-                participante1_id INTEGER,
-                participante2_id INTEGER,
-                palabrasUtilizadas TEXT,
-                ganador_id INTEGER,
-                FOREIGN KEY (participante1_id) REFERENCES Participantes(id),
-                FOREIGN KEY (participante2_id) REFERENCES Participantes(id),
-                FOREIGN KEY (ganador_id) REFERENCES Participantes(id)
-            );
-        """.trimIndent()
-
-        ejecutarSQL(sql, "Tabla Batallas")
-    }
-
-    fun insertarPalabra(palabra: String) {
-        val sql = "INSERT OR IGNORE INTO Palabras (palabra) VALUES (?);"
-        ejecutarSQL(sql, "Palabra") { statement ->
-            statement.setString(1, palabra)
-        }
-    }
-
-    fun insertarParticipante(nombre: String, urlFotoPerfil: String) {
-        val sql = "INSERT INTO Participantes (nombre, urlFotoPerfil) VALUES (?, ?);"
-        ejecutarSQL(sql, "Participante") { statement ->
-            statement.setString(1, nombre)
-            statement.setString(2, urlFotoPerfil)
-        }
-    }
-
-    fun insertarBatalla(fecha: String, participante1Id: Int, participante2Id: Int, palabrasUtilizadas: String, ganadorId: Int) {
-        val sql = "INSERT INTO Batallas (fecha, participante1_id, participante2_id, palabrasUtilizadas, ganador_id) VALUES (?, ?, ?, ?, ?);"
-        ejecutarSQL(sql, "Batalla") { statement ->
-            statement.setString(1, fecha)
-            statement.setInt(2, participante1Id)
-            statement.setInt(3, participante2Id)
-            statement.setString(4, palabrasUtilizadas)
-            statement.setInt(5, ganadorId)
-        }
-    }
-
-    private fun ejecutarSQL(sql: String, objeto: String, block: (statement: java.sql.PreparedStatement) -> Unit = {}) {
-        try {
-            val preparedStatement = connection?.prepareStatement(sql)
-            block(preparedStatement!!)
-            preparedStatement.executeUpdate()
-            println("$objeto insertado correctamente en la base de datos")
-        } catch (ex: SQLException) {
-            ex.printStackTrace()
-        }
-    }
-
 }

@@ -1,5 +1,6 @@
-package org.example.BatallaDeGallos.Server
 
+package org.example.BatallaDeGallos.Server
+/*
 import BaseDeDatosHandler
 import java.text.SimpleDateFormat
 import java.util.*
@@ -70,3 +71,4 @@ class Repositorio(private val baseDeDatosHandler: BaseDeDatosHandler) {
         return if (Random().nextBoolean()) participante1Id else participante2Id
     }
 }
+*/

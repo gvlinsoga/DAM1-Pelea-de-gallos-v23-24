@@ -1,4 +1,5 @@
 package org.example.BatallaDeGallos.Server
+/*
 
 import io.ktor.application.*
 import io.ktor.response.*
@@ -40,3 +41,4 @@ fun Application.iniciarServidor(repositorio: Repositorio) {
         }
     }
 }
+*/
