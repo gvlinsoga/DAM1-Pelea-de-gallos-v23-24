@@ -24,7 +24,7 @@
         <VBox alignment="CENTER" layoutX="482.0" layoutY="356.0" prefHeight="341.0" prefWidth="317.0" spacing="30.0">
             <children>
                 <Button id="botonLore" mnemonicParsing="false" onAction="#explorarArchivos" prefHeight="53.0" prefWidth="214.0" text="Seleccionar Lore..." />
-            <Button id="botonLore" mnemonicParsing="false" onAction="#openNewCharacterDialog" prefHeight="53.0" prefWidth="214.0" text="Nuevo Personaje" />
+            <Button fx:id="nuevoGalloBoton" mnemonicParsing="false" onAction="#openNewCharacterDialog" prefHeight="53.0" prefWidth="214.0" text="Nuevo Personaje" />
                 <Button fx:id="jugarBoton" mnemonicParsing="false" onAction="#siguientePantalla" prefHeight="53.0" prefWidth="214.0" text="Jugar" />                <Button id="botonRanking" mnemonicParsing="false" prefHeight="53.0" prefWidth="214.0" text="Ver Ranking" />
                 <Button id="botonSalir" mnemonicParsing="false" onAction="#salir" prefHeight="53.0" prefWidth="214.0" text="Salir" />
             </children>
