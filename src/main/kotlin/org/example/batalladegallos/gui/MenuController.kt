@@ -37,7 +37,7 @@ class MenuController {
 
             }
             jugarBoton.setOnAction {
-                siguientePantalla("batalla.fxml", "Batalla de Gallos")
+                siguientePantalla()
             }
             rankingBoton.setOnAction {
                 //ir al ranking
@@ -65,9 +65,9 @@ class MenuController {
     @Throws(IOException::class)
     fun siguientePantalla() {
         val currentStage = jugarBoton.scene.window as Stage
-        val fxmlLoader = FXMLLoader(javaClass.getResource(initNoseqe))
+        val fxmlLoader = FXMLLoader(javaClass.getResource("character-selection.fxml"))
         val scene = Scene(fxmlLoader.load())
-        currentStage.title = title
+        currentStage.title = "Batalla de Gallos - Selección de Personajes"
         currentStage.scene = scene
         currentStage.show()
     }
@@ -136,6 +136,7 @@ fun guardarGallo() {
         val stage = (salirBoton.scene.window as Stage)
         val fxmlLoader = FXMLLoader(javaClass.getResource("/path_to_ranking_view.fxml"))
         val scene = Scene(fxmlLoader.load())
+        stage.title = "Batalla de Gallos - Ranking"
         stage.scene = scene
         stage.show()
 
@@ -148,9 +149,6 @@ fun guardarGallo() {
 fun salir() {
     Platform.exit()
 }
-    fun empezarBatalla() {
 
-        siguientePantalla("testdarkserqw",  "Batalla de Gallos")
-    }
 }
 
