@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
 import javafx.stage.Stage
+import org.example.batalladegallos.Model.Palabras
 
 class GameplayController : Application() {
 
@@ -78,25 +79,26 @@ class GameplayController {
         return palabras
     }
 
-    private fun agruparPalabrasRimadas(palabras: Set<String>): Map<String, List<String>> {
-        val gruposDeRimas = mutableMapOf<String, MutableList<String>>()
+    private fun agruparPalabrasRimadas(palabras: Set<String>): List<Palabras> {
+    val gruposDeRimas = mutableMapOf<String, MutableList<String>>()
 
-        palabras.forEach { palabra ->
-            val rima = extraerUltimaSilaba(palabra)
-            if (rima.isNotEmpty()) {
-                gruposDeRimas.getOrPut(rima) { mutableListOf() }.add(palabra)
-            }
-        }
-
-        return gruposDeRimas.filter { it.value.size >= 20 }
-    }
-
-    private fun seleccionarPalabrasParaJuego(gruposDeRimas: Map<String, List<String>>): List<List<String>> {
-        return gruposDeRimas.values.shuffled().take(2).map { grupo ->
-            // EN TEORIA EN EL ENUNCIADO PONE QUE SON DE 10 A 20 PALABRAS PERO YO PONGO DE 19 A 20 PARA EVITAR QUE SALGAN LAS FECHAS ROMANAS POR EJEMPLO
-            grupo.shuffled().take((19..20).random())
+    palabras.forEach { palabra ->
+        val rima = extraerUltimaSilaba(palabra)
+        if (rima.isNotEmpty()) {
+            gruposDeRimas.getOrPut(rima) { mutableListOf() }.add(palabra)
         }
     }
+
+    return gruposDeRimas.filter { it.value.size >= 20 }
+            .map { Palabras(it.key, it.value) }
+}
+
+
+    private fun seleccionarPalabrasParaJuego(gruposDeRimas: List<Palabras>): List<Palabras> {
+    return gruposDeRimas.shuffled().take(2).map { grupo ->
+        Palabras(grupo.rima, grupo.palabrasDisponibles.shuffled().take((19..20).random()).toMutableList())
+    }
+}
 
     private fun extraerUltimaSilaba(palabra: String): String {
         val regex = "([aeiouAEIOU]+[^aeiouAEIOU]*$)".toRegex()
