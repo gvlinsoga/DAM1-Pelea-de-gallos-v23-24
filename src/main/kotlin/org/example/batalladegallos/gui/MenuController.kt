@@ -24,6 +24,7 @@ class MenuController {
 
 
 
+
     fun mainMenu() {
 
         try {
@@ -128,6 +129,21 @@ fun guardarGallo() {
     // Mostrar mensaje de éxito
     // Limpiar los campos
 }
+
+
+    @FXML
+    fun verRanking() {
+        val stage = (salirBoton.scene.window as Stage)
+        val fxmlLoader = FXMLLoader(javaClass.getResource("/path_to_ranking_view.fxml"))
+        val scene = Scene(fxmlLoader.load())
+        stage.scene = scene
+        stage.show()
+
+        // Get the controller instance
+        val rankingController = fxmlLoader.getController<RankingController>()
+        // Now you can call methods on rankingController
+    }
+
 
 fun salir() {
     Platform.exit()
