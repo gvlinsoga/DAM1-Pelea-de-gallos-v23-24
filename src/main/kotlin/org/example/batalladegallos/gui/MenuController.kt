@@ -2,45 +2,30 @@ package org.example.batalladegallos.gui
 
 import javafx.application.Platform
 import javafx.fxml.FXML
-import javafx.scene.control.Button
-import javafx.stage.FileChooser
-import java.io.File
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
-import javafx.scene.control.ButtonType
-import javafx.scene.control.DialogPane
-import javafx.scene.control.Label
+import javafx.scene.control.*
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
+import javafx.stage.FileChooser
 import javafx.stage.Stage
-import javafx.scene.control.MenuItem
+import java.io.File
 import java.io.IOException
+import java.nio.file.Paths
 
 class MenuController {
     @FXML
     var loreBoton: Button = Button()
-
-    @FXML
     lateinit var jugarBoton: Button
-
-    @FXML
     lateinit var nuevoGalloBoton: Button
-
-    @FXML
     var rankingBoton: Button = Button()
-
-    @FXML
     var salirBoton: Button = Button()
+    var initNoseqe = ""
 
-    @FXML
-    var userAvatar: ImageView = ImageView()
-    private lateinit var nombreAvatar: Label
-    private val imageNames = listOf("mrGrump.png", "mittens.png", "angryCat.png", "scaredy.png", "catspurrov.png")
-    private val labels = listOf("Mr Grump", "Mittens", "Angry Cat", "Scaredy", "Catspurrov")
-    private var currentIndex = 0
 
 
     fun mainMenu() {
+
         try {
             loreBoton.setOnAction {
                 explorarArchivos()
@@ -51,7 +36,7 @@ class MenuController {
 
             }
             jugarBoton.setOnAction {
-                siguientePantalla()
+                siguientePantalla("batalla.fxml", "Batalla de Gallos")
             }
             rankingBoton.setOnAction {
                 //ir al ranking
@@ -79,9 +64,9 @@ class MenuController {
     @Throws(IOException::class)
     fun siguientePantalla() {
         val currentStage = jugarBoton.scene.window as Stage
-        val fxmlLoader = FXMLLoader(javaClass.getResource("character-screen.fxml"))
+        val fxmlLoader = FXMLLoader(javaClass.getResource(initNoseqe))
         val scene = Scene(fxmlLoader.load())
-        currentStage.title = "Selecciona tu personaje"
+        currentStage.title = title
         currentStage.scene = scene
         currentStage.show()
     }
@@ -103,26 +88,53 @@ class MenuController {
         }
     }
 
-@Throws(IOException::class)
+    @FXML
+    private lateinit var logo: ImageView
+
+    @FXML
+    private var userAvatar: ImageView = ImageView()
+
+    @FXML
+    private var nombreAvatar: Label = Label()
+
+    // Listas de nombres de imágenes y etiquetas correspondientes
+    private val imageNames = listOf("mrGrump.png", "mittens.png", "angryCat.png", "scaredy.png", "catspurrov.png")
+    private val labels = listOf("Mr Grump", "Mittens", "Angry Cat", "Scaredy", "Catspurrov")
+    private var currentAvatarIndex = 0
+
+    @Throws(IOException::class)
 @FXML
 fun cambiarAvatar() {
-    val imageUrl = javaClass.getResourceAsStream("/images/${imageNames[currentIndex]}")
-    if (imageUrl != null) {
-        userAvatar.image = Image(imageUrl)
-        nombreAvatar.text = labels[currentIndex]
-        currentIndex = (currentIndex + 1) % imageNames.size
-    } else {
-        throw IOException("Image not found: /images/${imageNames[currentIndex]}")
-    }
+    currentAvatarIndex = (currentAvatarIndex + 1) % imageNames.size
+
+    val imageName = imageNames[currentAvatarIndex]
+     val label = labels[currentAvatarIndex]
+    val image = (Image(Paths.get("src/main/resources/org/example/batalladegallos/images/${imageName}").toUri().toString()))
+        userAvatar.image = image
+        nombreAvatar.text = label
 }
 
 
-fun guardarNuevoGallo() {
-    // Implement the function to save a new character
+@FXML
+var userName = TextField()
+    var cumField = DatePicker()
+
+fun guardarGallo() {
+    val nombre = userName.text
+    val cumpleaños = cumField.value
+    println("Nombre: $nombre, Cumpleaños: $cumpleaños")
+    // Guardar el nuevo gallo
+    // Cerrar la ventana
+    // Mostrar mensaje de éxito
+    // Limpiar los campos
 }
 
 fun salir() {
     Platform.exit()
 }
+    fun empezarBatalla() {
+
+        siguientePantalla("testdarkserqw",  "Batalla de Gallos")
+    }
 }
 
