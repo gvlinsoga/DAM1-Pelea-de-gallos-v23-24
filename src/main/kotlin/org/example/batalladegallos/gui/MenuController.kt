@@ -122,8 +122,8 @@ var userName = TextField()
 
 fun guardarGallo() {
     val nombre = userName.text
-    val cumpleaños = cumField.value
-    println("Nombre: $nombre, Cumpleaños: $cumpleaños")
+    val cumple = cumField.value
+    println("Nombre: $nombre, Cumpleaños: $cumple")
     // Guardar el nuevo gallo
     // Cerrar la ventana
     // Mostrar mensaje de éxito
@@ -134,7 +134,7 @@ fun guardarGallo() {
     @FXML
     fun verRanking() {
         val stage = (salirBoton.scene.window as Stage)
-        val fxmlLoader = FXMLLoader(javaClass.getResource("/path_to_ranking_view.fxml"))
+        val fxmlLoader = FXMLLoader(javaClass.getResource("ranking-screen.fxml"))
         val scene = Scene(fxmlLoader.load())
         stage.title = "Batalla de Gallos - Ranking"
         stage.scene = scene

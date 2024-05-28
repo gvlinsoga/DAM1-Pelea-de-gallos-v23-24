@@ -79,7 +79,7 @@ class Mongo {
                     nombre = document.getString("nombre"),
                     urlFotoPerfil = document.getString("urlFotoPerfil")
                 )
-                "Palabras" -> Palabras(
+                "Palabras" ->Palabras("REVISAR",
                     palabrasDisponibles = document.getList("palabrasDisponibles", String::class.java)
                 )
                 else -> throw Exception("Unsupported class")
