@@ -9,19 +9,23 @@ import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.stage.FileChooser
 import javafx.stage.Stage
+import javafx.util.Callback
+import org.example.batalladegallos.Model.Participante
 import java.io.File
 import java.io.IOException
 import java.nio.file.Paths
+import java.util.*
 
 class MenuController {
     @FXML
     var loreBoton: Button = Button()
     lateinit var jugarBoton: Button
     lateinit var nuevoGalloBoton: Button
+    lateinit var guardarPersonajeBoton: Button
     var rankingBoton: Button = Button()
     var salirBoton: Button = Button()
-    var initNoseqe = ""
-
+    var siguientePantalla = ""
+    var siguienteTitulo = ""
 
 
 
@@ -32,15 +36,14 @@ class MenuController {
                 explorarArchivos()
             }
             nuevoGalloBoton.setOnAction {
-                openNewCharacterDialog()
+                crearNuevoPersonaje()
                 cambiarAvatar()
-
             }
             jugarBoton.setOnAction {
                 siguientePantalla()
             }
             rankingBoton.setOnAction {
-                //ir al ranking
+                verRanking()
             }
             salirBoton.setOnAction {
                 salir()
@@ -62,35 +65,50 @@ class MenuController {
         }
     }
 
+    @FXML
     @Throws(IOException::class)
     fun siguientePantalla() {
+        siguientePantalla = "/org/example/batalladegallos/gui/character-screen.fxml"
+        siguienteTitulo = "Batalla de Gallos - Selección de Personajes"
         val currentStage = jugarBoton.scene.window as Stage
-        val fxmlLoader = FXMLLoader(javaClass.getResource("character-selection.fxml"))
+        val fxmlLoader = FXMLLoader(javaClass.getResource(siguientePantalla))
         val scene = Scene(fxmlLoader.load())
-        currentStage.title = "Batalla de Gallos - Selección de Personajes"
+        currentStage.title = siguienteTitulo
         currentStage.scene = scene
         currentStage.show()
     }
 
     @Throws(IOException::class)
-    fun openNewCharacterDialog() {
-        val dialog = javafx.scene.control.Dialog<ButtonType>()
+    fun crearNuevoPersonaje() {
+        val dialog = Dialog<Participante>()
         dialog.title = "Nuevo Personaje"
         val fxmlLoader = FXMLLoader(javaClass.getResource("newcharacter-popupv2.fxml"))
         val dialogPane = fxmlLoader.load<DialogPane>()
         dialog.dialogPane = dialogPane
+
+        // Add the default buttons
         dialog.dialogPane.buttonTypes.addAll(ButtonType.OK, ButtonType.CANCEL)
-        val result = dialog.showAndWait()
-        result.ifPresent { buttonType ->
+
+        val controller = fxmlLoader.getController<MenuController>()
+
+        // Handle the button click events
+        dialog.resultConverter = Callback<ButtonType, Participante> { buttonType ->
             if (buttonType == ButtonType.OK) {
-                println("OK button clicked")
-                // Handle saving the new character
+                controller.guardarFecha()
+                controller.guardarGallo()
+                Participante(controller.userName.text, controller.cumple, 0) // Assuming 0 as initial score
+            } else {
+                null
             }
         }
-    }
 
-    @FXML
-    private lateinit var logo: ImageView
+        val result = dialog.showAndWait()
+
+        // If the "Aceptar" button was clicked, add the new character to the participants list
+        result.ifPresent { participant ->
+            participants.add(participant)
+        }
+    }
 
     @FXML
     private var userAvatar: ImageView = ImageView()
@@ -98,57 +116,66 @@ class MenuController {
     @FXML
     private var nombreAvatar: Label = Label()
 
-    // Listas de nombres de imágenes y etiquetas correspondientes
-    private val imageNames = listOf("mrGrump.png", "mittens.png", "angryCat.png", "scaredy.png", "catspurrov.png")
-    private val labels = listOf("Mr Grump", "Mittens", "Angry Cat", "Scaredy", "Catspurrov")
+    private val imageNames = listOf("mittens.png", "mrGrump.png", "angryCat.png", "scaredy.png", "catspurrov.png")
+    private val labels = listOf("Mittens", "Mr Grump", "Angry Cat", "Scaredy", "Catspurrov")
     private var currentAvatarIndex = 0
+    private var cumple = ""
 
     @Throws(IOException::class)
-@FXML
-fun cambiarAvatar() {
-    currentAvatarIndex = (currentAvatarIndex + 1) % imageNames.size
-
-    val imageName = imageNames[currentAvatarIndex]
-     val label = labels[currentAvatarIndex]
-    val image = (Image(Paths.get("src/main/resources/org/example/batalladegallos/images/${imageName}").toUri().toString()))
+    @FXML
+    fun cambiarAvatar() {
+        currentAvatarIndex = (currentAvatarIndex + 1) % imageNames.size
+        val imageName = imageNames[currentAvatarIndex]
+        val label = labels[currentAvatarIndex]
+        val image =
+            (Image(Paths.get("src/main/resources/org/example/batalladegallos/images/${imageName}").toUri().toString()))
         userAvatar.image = image
         nombreAvatar.text = label
-}
+    }
 
 
-@FXML
-var userName = TextField()
+    @FXML
+    var userName = TextField()
+
+    @FXML
     var cumField = DatePicker()
+    private val participants = mutableListOf<Participante>()
+
+    fun guardarFecha() {
+        val date = cumField.value
+        println("Date from DatePicker: $date")
+        cumple = date.toString()
+        println("Saved date: $cumple")
+    }
 
 fun guardarGallo() {
     val nombre = userName.text
-    val cumple = cumField.value
+    val avatar = imageNames[currentAvatarIndex]
+    GlobalData.participants.add(Participante(nombre, avatar, 0))
     println("Nombre: $nombre, Cumpleaños: $cumple")
-    // Guardar el nuevo gallo
-    // Cerrar la ventana
-    // Mostrar mensaje de éxito
-    // Limpiar los campos
+    println("participantes: ${GlobalData.participants}")
 }
+
+
 
 
     @FXML
     fun verRanking() {
-        val stage = (salirBoton.scene.window as Stage)
-        val fxmlLoader = FXMLLoader(javaClass.getResource("ranking-screen.fxml"))
+        siguientePantalla = "/org/example/batalladegallos/gui/ranking-screen.fxml"
+        siguienteTitulo = "Batalla de Gallos - Ranking"
+        val stage = (rankingBoton.scene.window as Stage)
+        val fxmlLoader = FXMLLoader(javaClass.getResource(siguientePantalla))
         val scene = Scene(fxmlLoader.load())
-        stage.title = "Batalla de Gallos - Ranking"
+        stage.title = siguienteTitulo
         stage.scene = scene
         stage.show()
-
-        // Get the controller instance
         val rankingController = fxmlLoader.getController<RankingController>()
-        // Now you can call methods on rankingController
     }
 
 
-fun salir() {
-    Platform.exit()
-}
+    fun salir() {
+        Platform.exit()
+    }
 
 }
 

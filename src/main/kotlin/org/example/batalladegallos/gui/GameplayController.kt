@@ -1,6 +1,7 @@
 package org.example.batalladegallos.gui
 
 import javafx.application.Application
+import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.Parent
 import javafx.scene.Scene
@@ -8,6 +9,7 @@ import javafx.stage.Stage
 import org.example.batalladegallos.Model.Palabras
 
 class GameplayController : Application() {
+
 
     override fun start(primaryStage: Stage?) {
         val root: Parent = FXMLLoader.load(javaClass.getResource("/resources/gameplay.fxml"))

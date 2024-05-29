@@ -41,9 +41,10 @@ class Mongo {
             )
             is Participante -> Document(
                 mapOf(
-                    "id" to objecte.id,
+
                     "nombre" to objecte.nombre,
                     "urlFotoPerfil" to objecte.urlFotoPerfil,
+                    "puntuacion" to objecte.puntuacion,
                 )
             )
             is Palabras -> Document(
@@ -75,9 +76,10 @@ class Mongo {
                     ganadorId = document.getInteger("ganadorId")
                 )
                 "Participantes" -> Participante(
-                    id = document.getInteger("id"),
+
                     nombre = document.getString("nombre"),
-                    urlFotoPerfil = document.getString("urlFotoPerfil")
+                    urlFotoPerfil = document.getString("urlFotoPerfil"),
+                    puntuacion = document.getInteger("id")
                 )
                 "Palabras" ->Palabras("REVISAR",
                     palabrasDisponibles = document.getList("palabrasDisponibles", String::class.java)
