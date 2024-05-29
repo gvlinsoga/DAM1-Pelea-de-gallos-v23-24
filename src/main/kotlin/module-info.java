@@ -22,6 +22,11 @@ module org.example.dam1peleadegallosv2324 {
     requires io.ktor.serialization.kotlinx.json;
     requires io.ktor.http;
     requires java.desktop;
+    requires io.ktor.client.core;
+    requires io.ktor.client.cio;
+    requires kotlinx.coroutines.core;
+    requires kotlinx.serialization.json;
+    requires io.ktor.utils;
 
     opens org.example.batalladegallos.gui to javafx.fxml;
     exports org.example.batalladegallos.gui;

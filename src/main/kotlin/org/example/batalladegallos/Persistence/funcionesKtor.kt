@@ -9,6 +9,8 @@ import io.ktor.util.*
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+import org.example.batalladegallos.Model.Palabras
+import org.example.batalladegallos.Model.Participante
 
 fun getPalabras() {
     val client = HttpClient(CIO)
