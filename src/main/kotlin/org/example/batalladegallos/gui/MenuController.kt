@@ -40,7 +40,7 @@ class MenuController {
                 siguientePantalla()
             }
             rankingBoton.setOnAction {
-                //ir al ranking
+                verRanking()
             }
             salirBoton.setOnAction {
                 salir()

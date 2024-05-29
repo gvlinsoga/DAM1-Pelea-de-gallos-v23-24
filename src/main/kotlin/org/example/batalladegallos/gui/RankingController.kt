@@ -5,14 +5,14 @@ import javafx.scene.control.ListCell
 import javafx.scene.control.ListView
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
-import org.example.batalladegallos.Model.Gallo
+import org.example.batalladegallos.Model.Participante
 import javafx.util.Callback
 
 class RankingController {
     @FXML
-    private lateinit var listViewRanking: ListView<Gallo>
+    private lateinit var listViewRanking: ListView<Participante>
 
-    private val ranking: List<Gallo> = listOf()
+    private val ranking: List<Participante> = listOf()
 
     @FXML
     fun initialize() {
@@ -21,17 +21,17 @@ class RankingController {
     }
 
     private fun configurarListView() {
-        listViewRanking.cellFactory = Callback<ListView<Gallo>, ListCell<Gallo>> {
-            object : ListCell<Gallo>() {
+        listViewRanking.cellFactory = Callback<ListView<Participante>, ListCell<Participante>> {
+            object : ListCell<Participante>() {
                 private val imageView = ImageView()
-                override fun updateItem(gallo: Gallo?, empty: Boolean) {
+                override fun updateItem(gallo: Participante?, empty: Boolean) {
                     super.updateItem(gallo, empty)
                     if (empty || gallo == null) {
                         text = null
                         graphic = null
                     } else {
                         imageView.image = Image(gallo.urlFotoPerfil, 50.0, 50.0, true, true)
-                        text = "${gallo.apodo} - ${gallo.puntuacion}"
+                        text = "${gallo.nombre} - ${gallo.puntuacio}"
                         graphic = imageView
                     }
                 }
@@ -40,9 +40,9 @@ class RankingController {
     }
 
     private fun cargarRanking() {
-        val rankingOrdenado = ranking.sortedByDescending { it.puntuacion }
+        val rankingOrdenado = ranking.sortedByDescending { it.puntuacio }
         listViewRanking.items.clear()
-        listViewRanking.items.addAll(rankingOrdenado as Collection<Gallo>)
+        listViewRanking.items.addAll(rankingOrdenado as Collection<Participante>)
     }
 }
 
