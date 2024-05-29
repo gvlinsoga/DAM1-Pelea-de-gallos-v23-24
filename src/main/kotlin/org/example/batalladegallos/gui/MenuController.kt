@@ -133,16 +133,20 @@ fun guardarGallo() {
 
     @FXML
     fun verRanking() {
-        val stage = (salirBoton.scene.window as Stage)
-        val fxmlLoader = FXMLLoader(javaClass.getResource("ranking-screen.fxml"))
-        val scene = Scene(fxmlLoader.load())
-        stage.title = "Batalla de Gallos - Ranking"
-        stage.scene = scene
-        stage.show()
+        try {
+            val stage = (rankingBoton.scene.window as Stage)  // Obtiene el Stage actual desde el botón
+            val fxmlLoader = FXMLLoader(javaClass.getResource("/org/example/batalladegallos/gui/ranking-screen.fxml"))
+            val scene = Scene(fxmlLoader.load())
+            stage.title = "Batalla de Gallos - Ranking"
+            stage.scene = scene
+            stage.show()
 
-        // Get the controller instance
-        val rankingController = fxmlLoader.getController<RankingController>()
-        // Now you can call methods on rankingController
+            // Opcional: Si necesitas interactuar con el controlador de la pantalla de ranking
+            val rankingController = fxmlLoader.getController<RankingController>()
+            // Aquí podrías llamar a algún método de `rankingController` si es necesario
+        } catch (e: IOException) {
+            e.printStackTrace()  // Maneja la excepción en caso de error
+        }
     }
 
 
