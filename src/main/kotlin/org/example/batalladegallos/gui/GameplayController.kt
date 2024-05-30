@@ -1,140 +1,169 @@
 package org.example.batalladegallos.gui
 
-import javafx.application.Application
+import javafx.animation.KeyFrame
+import javafx.animation.Timeline
+import javafx.event.ActionEvent
+import javafx.event.EventHandler
 import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
-import javafx.scene.Parent
 import javafx.scene.Scene
+import javafx.scene.control.Button
+import javafx.scene.control.Label
+import javafx.scene.control.MenuButton
+import javafx.scene.control.MenuItem
+import javafx.scene.control.ProgressBar
+import javafx.scene.text.Text
 import javafx.stage.Stage
+import javafx.util.Duration
 import org.example.batalladegallos.Model.Palabras
+import org.example.batalladegallos.Model.Participante
+import org.example.batalladegallos.gui.RankingController
 
-class GameplayController : Application() {
+class GameController {
 
+    @FXML
+    lateinit var timerPlayer1: ProgressBar
 
-    override fun start(primaryStage: Stage?) {
-        val root: Parent = FXMLLoader.load(javaClass.getResource("/resources/gameplay.fxml"))
-        primaryStage?.title = "Batalla de Gallos - Arena"
-        primaryStage?.scene = Scene(root)
-        primaryStage?.show()
+    @FXML
+    lateinit var timerPlayer2: ProgressBar
+
+    @FXML
+    var roundCounter: Text  = Text()
+
+    @FXML
+    lateinit var player1Name: Text
+
+    @FXML
+    lateinit var player2Name: Text
+
+    private lateinit var player1: Participante
+    private lateinit var player2: Participante
+
+    private var currentRound = 0
+    private var currentPlayer = 1
+
+    var siguientePantalla = ""
+    var siguienteTitulo = ""
+
+    @FXML
+    lateinit var goRankingButton: Button
+
+    fun initialize(player1: Participante, player2: Participante) {
+        this.player1 = player1
+        this.player2 = player2
+        updateMenuItemsWords()
+        startRound()
     }
 
-}
+    @FXML
+    private lateinit var menuPalabrasPlayer1: MenuButton
+    @FXML
+    private lateinit var menuPalabrasPlayer2: MenuButton
 
+    private val palabrasPlayer1 = Palabras("Rima 1", mutableListOf("Palabra 1", "Palabra 2", "Palabra 3"))
+    private val palabrasPlayer2 = Palabras("Rima 2", mutableListOf("Palabra 4", "Palabra 5", "Palabra 6"))
 
-/*
-package org.example.batalladegallos.gui
+    @FXML
+    var aplaudimetroProgress: ProgressBar = ProgressBar()
+    @FXML
+    var aplausosContador: Label = Label()
+    @FXML
+    var rondaCounter: Label = Label()
+    @FXML
+    var tiempoPlayer1 : Label = Label()
+    @FXML
+    var tiempoPlayer2 : Label = Label()
 
-import java.io.File
-import java.util.*
-import java.util.regex.Pattern
+    private fun updateMenuItemsWords() {
+        // Clear the existing items
+        menuPalabrasPlayer1.items.clear()
+        menuPalabrasPlayer2.items.clear()
 
-class Gallo(
-    val apodo: String,
-    val urlFotoPerfil: String,
-    var palabras: List<String> = listOf(),
-    var puntuacion: Int = 0
-)
-
-class GameplayController {
-    private var palabrasSeleccionadas: Map<String, List<String>> = emptyMap()
-    var gallos: List<Gallo> = listOf()
-    var temporizador = Temporizador()
-
-    fun iniciarJuego(filePath: String) {
-        val palabras = leerArchivo(filePath)
-        palabrasSeleccionadas = agruparPalabrasRimadas(palabras)
-        val seleccionadas = seleccionarPalabrasParaJuego(palabrasSeleccionadas)
-
-
-        //HE PUESTO ESTOS GALLOS SIMULANDO QUE YA ESTÁN CREADOS, SE TIENEN QUE MODIFICAR - POR HACER :D
-        gallos = listOf(
-            Gallo("Gallo1", "url1.jpg", seleccionadas[0]),
-            Gallo("Gallo2", "url2.jpg", seleccionadas[1])
-        )
-
-        gallos.forEach {
-            println("${it.apodo}: ${it.palabras.joinToString(", ")}")
+        // Add the words to the menu for player 1
+        palabrasPlayer1.palabrasDisponibles.forEach { word ->
+            val menuItem = MenuItem(word)
+            menuPalabrasPlayer1.items.add(menuItem)
+            menuItem.setOnAction {
+                // Disable the menu item and change its text color to gray
+                menuItem.isDisable = true
+                menuItem.style = "-fx-text-fill: gray;"
+                // Add the word to the list of used words
+                palabrasPlayer1.palabrasUsadas.add(word)
+                // Remove the word from the list of available words
+                palabrasPlayer1.palabrasDisponibles.remove(word)
+            }
         }
 
-        temporizador.iniciar()
+        // Add the words to the menu for player 2
+        palabrasPlayer2.palabrasDisponibles.forEach { word ->
+            val menuItem = MenuItem(word)
+            menuPalabrasPlayer2.items.add(menuItem)
+            menuItem.setOnAction {
+                // Disable the menu item and change its text color to gray
+                menuItem.isDisable = true
+                menuItem.style = "-fx-text-fill: gray;"
+                // Add the word to the list of used words
+                palabrasPlayer2.palabrasUsadas.add(word)
+                // Remove the word from the list of available words
+                palabrasPlayer2.palabrasDisponibles.remove(word)
+            }
+        }
     }
 
-    private fun leerArchivo(filePath: String): Set<String> {
-        val file = File(filePath)
-        val palabras = mutableSetOf<String>()
-        val pattern = Pattern.compile("\\b[\\p{L}&&[^\\p{P}]]{4,}\\b")
+    private fun startRound() {
+        currentRound++
+        roundCounter.text = "Round: $currentRound"
+        player1Name.text = player1.nombre
+        player2Name.text = player2.nombre
 
-        if (file.exists()) {
-            file.readLines().forEach { linea ->
-                val matcher = pattern.matcher(linea.toLowerCase())
-                while (matcher.find()) {
-                    val palabra = matcher.group()
-                    if (!palabra.any { it.isDigit() }) {
-                        palabras.add(palabra)
+        startTimer()
+    }
+
+private fun startTimer() {
+    val players = listOf(timerPlayer1, timerPlayer2)
+    val labels = listOf(tiempoPlayer1, tiempoPlayer2) // Assuming you have a label for player 2
+    val timeline = Timeline(
+        KeyFrame(Duration.seconds(1.0), EventHandler<ActionEvent> {
+            val currentPlayerProgressBar = players[currentPlayer - 1]
+            val currentPlayerLabel = labels[currentPlayer - 1] // Get the label for the current player
+            currentPlayerProgressBar.progress -= 1.0 / 30
+            if (currentPlayerProgressBar.progress <= 0) {
+                currentPlayerProgressBar.progress = 1.0
+                currentPlayerProgressBar.style = "-fx-accent: gray;" // Disable current player's progress bar
+                currentPlayer = 3 - currentPlayer // Switch to the other player
+                val nextPlayerProgressBar = players[currentPlayer - 1]
+                nextPlayerProgressBar.progress = 1.0
+                nextPlayerProgressBar.style = "-fx-accent: blue;" // Enable next player's progress bar
+                if (currentPlayer == 1) {
+                    currentRound++
+                    if (currentRound < 3) {
+                        startRound()
+                    } else {
+                        // Switch to ranking screen
                     }
                 }
             }
-        } else {
-            println("El archivo no existe")
-        }
-
-        return palabras
-    }
-
-    private fun agruparPalabrasRimadas(palabras: Set<String>): List<Palabras> {
-    val gruposDeRimas = mutableMapOf<String, MutableList<String>>()
-
-    palabras.forEach { palabra ->
-        val rima = extraerUltimaSilaba(palabra)
-        if (rima.isNotEmpty()) {
-            gruposDeRimas.getOrPut(rima) { mutableListOf() }.add(palabra)
-        }
-    }
-
-    return gruposDeRimas.filter { it.value.size >= 20 }
-            .map { Palabras(it.key, it.value) }
+            // Update the label with the remaining seconds for the current player
+            currentPlayerLabel.text = "${(currentPlayerProgressBar.progress * 30).toInt()} segundos restantes"
+        })
+    )
+    timeline.cycleCount = Timeline.INDEFINITE
+    timeline.play()
 }
 
+    private fun irRanking() {
 
-    private fun seleccionarPalabrasParaJuego(gruposDeRimas: List<Palabras>): List<Palabras> {
-    return gruposDeRimas.shuffled().take(2).map { grupo ->
-        Palabras(grupo.rima, grupo.palabrasDisponibles.shuffled().take((19..20).random()).toMutableList())
+    }
+
+    fun goRanking() {
+        siguientePantalla = "/org/example/batalladegallos/gui/ranking-screen.fxml"
+        siguienteTitulo = "Batalla de Gallos - Ranking"
+        val stage = (goRankingButton.scene.window as Stage)
+        val fxmlLoader = FXMLLoader(javaClass.getResource(siguientePantalla))
+        val scene = Scene(fxmlLoader.load())
+        stage.title = siguienteTitulo
+        stage.scene = scene
+        stage.show()
+        val rankingController = fxmlLoader.getController<RankingController>()
     }
 }
-
-    private fun extraerUltimaSilaba(palabra: String): String {
-        val regex = "([aeiouAEIOU]+[^aeiouAEIOU]*$)".toRegex()
-        return regex.find(palabra)?.value ?: ""
-    }
-}
-
-class Temporizador {
-    private var timer: Timer? = null
-    fun iniciar() {
-        timer = Timer()
-        timer?.schedule(object : TimerTask() {
-            var segundos = 60 // Duración de un minuto
-
-            override fun run() {
-                if (segundos > 0) {
-                    println("Tiempo restante: $segundos segundos")
-                    segundos--
-                } else {
-                    println("Tiempo finalizado.")
-                    cancelar()
-                }
-            }
-        }, 0, 1000)
-    }
-    fun cancelar() {
-        timer?.cancel()
-        println("Temporizador detenido.")
-    }
-}
-
-fun main() {
-    val controller = GameplayController()
-    controller.iniciarJuego("src/main/kotlin/org/example/BatallaDeGallos/Persistence/TirantLoBlanc_Caps1_99.txt")
-}
-
- */

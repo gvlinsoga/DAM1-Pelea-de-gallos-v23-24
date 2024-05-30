@@ -86,25 +86,19 @@ class MenuController {
         val dialogPane = fxmlLoader.load<DialogPane>()
         dialog.dialogPane = dialogPane
 
-        // Add the default buttons
         dialog.dialogPane.buttonTypes.addAll(ButtonType.OK, ButtonType.CANCEL)
 
         val controller = fxmlLoader.getController<MenuController>()
-
-        // Handle the button click events
         dialog.resultConverter = Callback<ButtonType, Participante> { buttonType ->
             if (buttonType == ButtonType.OK) {
                 controller.guardarFecha()
                 controller.guardarGallo()
-                Participante(controller.userName.text, controller.cumple, 0) // Assuming 0 as initial score
+                Participante(controller.userName.text, controller.cumple, 0)
             } else {
                 null
             }
         }
-
         val result = dialog.showAndWait()
-
-        // If the "Aceptar" button was clicked, add the new character to the participants list
         result.ifPresent { participant ->
             participants.add(participant)
         }
