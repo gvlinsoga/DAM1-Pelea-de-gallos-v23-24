@@ -112,7 +112,7 @@
       <VBox alignment="TOP_CENTER" layoutX="516.0" layoutY="189.0" prefHeight="423.0" prefWidth="254.0" AnchorPane.bottomAnchor="188.0" AnchorPane.leftAnchor="516.0" AnchorPane.rightAnchor="510.0" AnchorPane.topAnchor="189.0">
          <children>
             <Button fx:id="goRankingButton" disable="true" mnemonicParsing="false" text="Button" visible="false" />
-            <Label fx:id="aplausosContador" prefHeight="70.0" prefWidth="90.0" text="Aplausos: ">
+            <Label fx:id="aplausosContador" prefHeight="94.0" prefWidth="227.0" text="Esperando aplausos...">
                <font>
                   <Font size="20.0" />
                </font>

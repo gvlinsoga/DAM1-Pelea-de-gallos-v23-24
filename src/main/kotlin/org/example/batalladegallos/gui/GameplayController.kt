@@ -64,21 +64,22 @@ class GameController {
     private var currentPlayer = 1
     var siguientePantalla = ""
     var siguienteTitulo = ""
+    var primerCop = true
 
     private val palabrasPlayer1 = Palabras("Rima 1", mutableListOf("Palabra 1", "Palabra 2", "Palabra 3"))
     private val palabrasPlayer2 = Palabras("Rima 2", mutableListOf("Palabra 4", "Palabra 5", "Palabra 6"))
 
-fun initialize(player1Data: Participante, player2Data: Participante) {
-    player1 = player1Data
-    player2 = player2Data
-    player1Name.text = player1.nombre
-    player2Name.text = player2.nombre
-    updateAvatar(player1.urlFotoPerfil, avatarPlayer1)
-    updateAvatar(player2.urlFotoPerfil, avatarPlayer2)
-    updateMenuItemsWords()
-    startRound()
+    fun initialize(player1Data: Participante, player2Data: Participante) {
+        player1 = player1Data
+        player2 = player2Data
+        player1Name.text = player1.nombre
+        player2Name.text = player2.nombre
+        updateAvatar(player1.urlFotoPerfil, avatarPlayer1)
+        updateAvatar(player2.urlFotoPerfil, avatarPlayer2)
+        updateMenuItemsWords()
+        startRound()
 
-}
+    }
 
 
     private fun updateAvatar(url: String, imageView: javafx.scene.image.ImageView) {
@@ -130,6 +131,7 @@ fun initialize(player1Data: Participante, player2Data: Participante) {
                     switchPlayer(currentPlayerProgressBar, currentPlayerScore, players, labels)
                 }
                 updateLabel(currentPlayerProgressBar, currentPlayerLabel)
+
             })
         )
         timeline.cycleCount = Timeline.INDEFINITE
@@ -140,31 +142,25 @@ fun initialize(player1Data: Participante, player2Data: Participante) {
         progressBar.progress -= 1.0 / 30
     }
 
- private fun switchPlayer(currentPlayerProgressBar: ProgressBar, currentPlayerScore: Label, players: List<ProgressBar>, labels: List<Label>) {
-    currentPlayerProgressBar.style = "-fx-accent: gray;"
-    try {
-        currentPlayerScore.text = (currentPlayerScore.text.toDouble() + aplaudimetroProgress.progress).toString()
-
-    } catch (e: NumberFormatException) {
-
-        println("Error: ${e.message}")
-    }
-    currentPlayer = 3 - currentPlayer
-    val nextPlayerProgressBar = players[currentPlayer - 1]
-    val nextPlayerLabel = labels[currentPlayer - 1]
-    nextPlayerProgressBar.progress = 1.0
-    nextPlayerLabel.text = "${(nextPlayerProgressBar.progress * 30).toInt()} segundos restantes"
-    if (currentPlayer == 1) {
-        currentRound++
-        rondaCounter.text = "Round: $currentRound"
-        if (currentRound < 3) {
-            startRound()
-        } else {
-            goRanking()
+    private fun switchPlayer(currentPlayerProgressBar: ProgressBar, currentPlayerScore: Label, players: List<ProgressBar>, labels: List<Label>) {
+        currentPlayerProgressBar.style = "-fx-accent: gray;"
+        currentPlayer = 3 - currentPlayer
+        val nextPlayerProgressBar = players[currentPlayer - 1]
+        val nextPlayerLabel = labels[currentPlayer - 1]
+        nextPlayerProgressBar.progress = 1.0
+        nextPlayerLabel.text = "${(nextPlayerProgressBar.progress * 30).toInt()} segundos restantes"
+        if (currentPlayer == 1) {
+            currentRound++
+            rondaCounter.text = "Round: $currentRound"
+            if (currentRound < 4) {
+                startRound()
+            } else {
+                goRanking()
+            }
         }
-    }
+        aplaudimetroProgress()
 
-}
+    }
 
     private fun updateLabel(progressBar: ProgressBar, label: Label) {
         println(label)
@@ -177,6 +173,26 @@ fun initialize(player1Data: Participante, player2Data: Participante) {
         }
 
     }
+
+fun aplaudimetroProgress() {
+    if (!primerCop) {
+    val randomProgress = Random.nextDouble()
+    aplaudimetroProgress.progress = randomProgress
+
+    val score = (randomProgress * 100).toInt()
+
+    if (currentPlayer != 1) {
+        player1.puntuacion += score
+        scorePlayer1.text = "Score: ${player1.puntuacion}"
+    } else {
+        player2.puntuacion += score
+        scorePlayer2.text =  "Score: ${player2.puntuacion}"
+    }
+    aplausosContador.text = ("Aplausos: $score")
+} else {
+    primerCop = false
+    }
+}
 
 
     fun goRanking() {

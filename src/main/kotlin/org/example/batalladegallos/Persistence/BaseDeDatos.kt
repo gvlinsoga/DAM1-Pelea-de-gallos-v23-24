@@ -30,14 +30,14 @@ class Mongo {
         // Crea un document MongoDB segons el tipus d'objecte passat com a paràmetre
         val document = when(objecte) {
             is Batalla -> Document(
-                mapOf(
-                    "id" to objecte.id,
-                    "fecha" to objecte.fecha,
-                    "participante1Id" to objecte.participante1Id,
-                    "participante2Id" to objecte.participante2Id,
-                    "palabrasUtilizadas" to objecte.palabrasUtilizadas,
-                    "ganadorId" to objecte.ganadorId
-                )
+    mapOf(
+                        "id" to 2,
+                        "fecha" to objecte.fecha,
+                        "participante1Id" to 2,
+                        "participante2Id" to 2,
+                        "palabrasUtilizadas" to objecte.palabrasUtilizadas,
+                        "ganadorId" to 2
+                    )
             )
             is Participante -> Document(
                 mapOf(
@@ -59,36 +59,36 @@ class Mongo {
         colLeccio.insertOne(document)
     }
 
-    fun retrieve(colleccio: String, filter: Document, clazz: String): List<Any> {
-        // Obté la col·lecció de la base de dades
-        val colLeccio: MongoCollection<Document> = database!!.getCollection(colleccio)
-        // Cerca els documents segons el filtre proporcionat
-        val documents = colLeccio.find(filter).toList()
-        // Converteix els documents en objectes Kotlin
-        val objects = documents.map { document ->
-            when (clazz) {
-                "Batalla" -> Batalla(
-                    id = document.getInteger("id"),
-                    fecha = document.getString("fecha"),
-                    participante1Id = document.getInteger("participante1Id"),
-                    participante2Id = document.getInteger("participante2Id"),
-                    palabrasUtilizadas = document.getList("palabrasUtilizadas", String::class.java),
-                    ganadorId = document.getInteger("ganadorId")
-                )
-                "Participantes" -> Participante(
-
-                    nombre = document.getString("nombre"),
-                    urlFotoPerfil = document.getString("urlFotoPerfil"),
-                    puntuacion = document.getInteger("id")
-                )
-                "Palabras" ->Palabras("REVISAR",
-                    palabrasDisponibles = document.getList("palabrasDisponibles", String::class.java)
-                )
-                else -> throw Exception("Unsupported class")
-            }
-        }
-        return objects
-    }
+//    fun retrieve(colleccio: String, filter: Document, clazz: String): List<Any> {
+//        // Obté la col·lecció de la base de dades
+//        val colLeccio: MongoCollection<Document> = database!!.getCollection(colleccio)
+//        // Cerca els documents segons el filtre proporcionat
+//        val documents = colLeccio.find(filter).toList()
+//        // Converteix els documents en objectes Kotlin
+//        val objects = documents.map { document ->
+//            when (clazz) {
+//                "Batalla" -> Batalla(
+//                    id = document.getInteger("id"),
+//                    fecha = document.getString("fecha"),
+//                    participante1Id = document.getInteger("participante1Id"),
+//                    participante2Id = document.getInteger("participante2Id"),
+//                    palabrasUtilizadas = document.getList("palabrasUtilizadas", String::class.java),
+//                    ganadorId = document.getInteger("ganadorId")
+//                )
+//                "Participantes" -> Participante(
+//
+//                    nombre = document.getString("nombre"),
+//                    urlFotoPerfil = document.getString("urlFotoPerfil"),
+//                    puntuacion = document.getInteger("id")
+//                )
+//                "Palabras" ->Palabras("REVISAR",
+//                    palabrasDisponibles = document.getList("palabrasDisponibles", String::class.java)
+//                )
+//                else -> throw Exception("Unsupported class")
+//            }
+//        }
+//        return objects
+//    }
 
     // Mètode per tancar la connexió amb la base de dades MongoDB
     fun desconnexioBD() {

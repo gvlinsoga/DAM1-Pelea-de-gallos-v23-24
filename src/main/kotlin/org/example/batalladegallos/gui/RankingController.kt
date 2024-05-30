@@ -12,25 +12,21 @@ import javafx.scene.control.TableView
 import javafx.scene.image.Image
 import javafx.scene.image.ImageView
 import javafx.stage.Stage
-import org.example.batalladegallos.Model.Gallo
 import javafx.util.Callback
 import org.example.batalladegallos.Model.Participante
 
 class RankingController {
     @FXML
-    private lateinit var listViewRanking: ListView<Gallo>
 
-    @FXML
     lateinit var tableView: TableView<Participante>
 
-    private val ranking: List<Gallo> = listOf()
 
     @FXML
     lateinit var salirBoton: Button
 
     fun initialize() {
-        configurarListView()
-        cargarRanking()
+        // configurarListView()
+        //  cargarRanking()
     }
 
 
@@ -51,12 +47,8 @@ class RankingController {
         scoreColumn.setCellValueFactory { SimpleIntegerProperty(it.value.puntuacion).asObject() }
     }
 
-    fun salir() {
-        val stage = listViewRanking.scene.window as Stage
-        stage.close()
-    }
 
-
+/*
     private fun configurarListView() {
         listViewRanking.cellFactory = Callback<ListView<Gallo>, ListCell<Gallo>> {
             object : ListCell<Gallo>() {
@@ -81,7 +73,7 @@ class RankingController {
         listViewRanking.items.clear()
         listViewRanking.items.addAll(rankingOrdenado as Collection<Gallo>)
     }
-
+*/
     fun salirR() {
        salirBoton.setOnAction {
            val stage = salirBoton.scene.window as Stage
