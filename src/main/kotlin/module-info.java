@@ -16,10 +16,6 @@ module org.example.dam1peleadegallosv2324 {
     requires org.mongodb.driver.reactivestreams;
     requires org.mongodb.bson;
     requires org.mongodb.driver.sync.client;
-    requires io.ktor.server.netty;
-    requires io.ktor.server.core;
-    requires io.ktor.server.content.negotiation;
-    requires io.ktor.serialization.kotlinx.json;
     requires io.ktor.http;
     requires java.desktop;
     requires io.ktor.client.core;
