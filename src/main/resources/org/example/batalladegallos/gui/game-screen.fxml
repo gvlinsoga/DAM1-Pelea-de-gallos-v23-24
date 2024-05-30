@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.batalladegallos.gui.GameController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.batalladegallos.gui.GameController">
    <children>
       <ImageView fitHeight="800.0" fitWidth="1280.0" layoutX="501.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -23,8 +24,8 @@
                   <Insets bottom="8.0" top="50.0" />
                </VBox.margin>
             </Text>
-            <Label fx:id="scorePlayer2"  text="SCORE: " />
-            <ImageView id="player2pfp" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+            <Label fx:id="scorePlayer2" text="SCORE:" />
+            <ImageView id="player2pfp" fx:id="avatarPlayer2" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/mrGrump.png" />
                </image>
@@ -65,8 +66,9 @@
                   <Insets bottom="8.0" top="50.0" />
                </VBox.margin>
             </Text>
-            <Label fx:id="scorePlayer1" text="SCORE:" />
-            <ImageView id="player1pfp" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
+            <Label
+                    fx:id="scorePlayer1" text="SCORE:" />
+            <ImageView id="player1pfp" fx:id="avatarPlayer1" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/mittens.png" />
                </image>

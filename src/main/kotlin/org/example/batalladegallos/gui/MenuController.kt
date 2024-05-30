@@ -42,9 +42,7 @@ class MenuController {
             jugarBoton.setOnAction {
                 siguientePantalla()
             }
-            rankingBoton.setOnAction {
-                verRanking()
-            }
+
             salirBoton.setOnAction {
                 salir()
             }
@@ -150,21 +148,6 @@ fun guardarGallo() {
     println("participantes: ${GlobalData.participants}")
 }
 
-
-
-
-    @FXML
-    fun verRanking() {
-        siguientePantalla = "/org/example/batalladegallos/gui/ranking-screen.fxml"
-        siguienteTitulo = "Batalla de Gallos - Ranking"
-        val stage = (rankingBoton.scene.window as Stage)
-        val fxmlLoader = FXMLLoader(javaClass.getResource(siguientePantalla))
-        val scene = Scene(fxmlLoader.load())
-        stage.title = siguienteTitulo
-        stage.scene = scene
-        stage.show()
-        val rankingController = fxmlLoader.getController<RankingController>()
-    }
 
 
     fun salir() {

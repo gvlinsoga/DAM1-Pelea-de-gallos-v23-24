@@ -29,10 +29,10 @@ class CharacterSelectionController {
     var siguienteTitulo = ""
 
 
-    @FXML
-    val menuButtonPlayer2: MenuButton = MenuButton()
-    @FXML
-    var menuButtonPlayer1: MenuButton= MenuButton()
+@FXML
+lateinit var menuButtonPlayer2: MenuButton
+@FXML
+lateinit var menuButtonPlayer1: MenuButton
 
 var listaPersona = mutableListOf<Participante>()
 
@@ -109,6 +109,7 @@ fun iniciarBatalla() {
     }
 }
 }
+
 
 
 
