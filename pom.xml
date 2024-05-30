@@ -14,8 +14,8 @@
         <junit.version>5.10.0</junit.version>
         <kotlin.version>1.8.22</kotlin.version>
         <kmongo.version>4.9.0</kmongo.version>
-        <ktor.version>2.0.0</ktor.version>
         <logback.version>1.2.10</logback.version>
+        <ktor.version>2.3.11</ktor.version>
     </properties>
 
 
@@ -152,40 +152,6 @@
             <version>1.7.36</version>
         </dependency>
 
-        <dependency>
-            <groupId>io.ktor</groupId>
-            <artifactId>ktor-server-core-jvm</artifactId>
-            <version>${ktor.version}</version>
-        </dependency>
-
-        <!-- Ktor server content negotiation dependency -->
-        <dependency>
-            <groupId>io.ktor</groupId>
-            <artifactId>ktor-server-content-negotiation-jvm</artifactId>
-            <version>${ktor.version}</version>
-        </dependency>
-
-        <!-- Ktor serialization with kotlinx-json dependency -->
-        <dependency>
-            <groupId>io.ktor</groupId>
-            <artifactId>ktor-serialization-kotlinx-json-jvm</artifactId>
-            <version>${ktor.version}</version>
-        </dependency>
-
-        <!-- Ktor server netty dependency -->
-        <dependency>
-            <groupId>io.ktor</groupId>
-            <artifactId>ktor-server-netty-jvm</artifactId>
-            <version>${ktor.version}</version>
-        </dependency>
-
-        <!-- Ktor client core dependency -->
-        <dependency>
-            <groupId>io.ktor</groupId>
-            <artifactId>ktor-client-core</artifactId>
-            <version>${ktor.version}</version>
-        </dependency>
-
         <!-- Logback classic dependency -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -193,19 +159,15 @@
             <version>${logback.version}</version>
         </dependency>
 
-        <!-- Ktor client CIO dependency -->
         <dependency>
             <groupId>io.ktor</groupId>
-            <artifactId>ktor-client-cio</artifactId>
+            <artifactId>ktor-client-core-jvm</artifactId>
             <version>${ktor.version}</version>
         </dependency>
-
-        <!-- Ktor server tests dependency -->
         <dependency>
             <groupId>io.ktor</groupId>
-            <artifactId>ktor-server-tests-jvm</artifactId>
+            <artifactId>ktor-client-cio-jvm</artifactId>
             <version>${ktor.version}</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
 

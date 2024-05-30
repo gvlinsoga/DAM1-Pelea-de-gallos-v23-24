@@ -171,7 +171,7 @@ fun initialize(player1Data: Participante, player2Data: Participante) {
         println(" dopfskopdsfkoprfdskopfdskdopsfkfdopsk ")
         val secondsLeft = (progressBar.progress * 30).toInt()
         if (secondsLeft  <= 0) {
-            label.text = "EsperandoTurno"
+            label.text = "Esperando Turno"
         } else {
             label.text = "$secondsLeft segundos"
         }
