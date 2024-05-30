@@ -28,8 +28,6 @@ class CharacterSelectionController {
     var siguientePantalla = ""
     var siguienteTitulo = ""
 
-    @FXML
-    val menuButtonTusMuertos : MenuButton = MenuButton()
 
     @FXML
     val menuButtonPlayer2: MenuButton = MenuButton()
