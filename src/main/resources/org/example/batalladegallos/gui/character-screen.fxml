@@ -16,8 +16,7 @@
       <ImageView fitHeight="800.0" fitWidth="1280.0" layoutX="183.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
             <Image url="@../images/personajesFondo.jpg" />
-         </image>
-      </ImageView>
+         </image></ImageView>
       <VBox alignment="TOP_CENTER" layoutX="58.0" layoutY="68.0" prefHeight="620.0" prefWidth="450.0" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="775.0" AnchorPane.topAnchor="65.0">
          <children>
             <Text id="player1" fx:id="gallo1" strokeType="OUTSIDE" strokeWidth="0.0" text="GALLO 1" textAlignment="CENTER">
@@ -36,7 +35,7 @@
                   <Image url="@../images/avatarEmpty.png" />
                </image>
             </ImageView>
-            <MenuButton fx:id="menuButtonPlayer1" mnemonicParsing="false" prefHeight="55.0" prefWidth="229.0" text="Personaje 1">
+            <MenuButton fx:id="menuButtonPlayer1" mnemonicParsing="false" text="Personaje 1">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -80,7 +79,7 @@
                   <Insets top="16.0" />
                </VBox.margin>
             </ImageView>
-            <Text id="versusText" strokeType="OUTSIDE" strokeWidth="0.0" text="VS" textAlignment="CENTER" wrappingWidth="56.40799903869629">
+            <Text id="versusText" fx:id="vsText" strokeType="OUTSIDE" strokeWidth="0.0" text="VS" textAlignment="CENTER" wrappingWidth="56.40799903869629">
                <font>
                   <Font size="58.0" />
                </font>

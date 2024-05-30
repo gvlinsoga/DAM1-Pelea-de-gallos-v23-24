@@ -14,6 +14,7 @@ import javafx.stage.Stage
 import org.example.batalladegallos.Model.Participante
 
 class CharacterSelectionController {
+
     private var selectedPlayer1: Participante? = null
     private var selectedPlayer2: Participante? = null
     @FXML
@@ -54,12 +55,14 @@ var listaPersona = mutableListOf<Participante>()
             val menuItem1 = MenuItem(participant.nombre)
             menuItem1.setOnAction {
                 selectedPlayer1 = participant
+                menuButtonPlayer1.text = participant.nombre
                 changeAvatar(participant, 1)
             }
             menuButtonPlayer1.items.add(menuItem1)
 
             val menuItem2 = MenuItem(participant.nombre)
             menuItem2.setOnAction {
+                menuButtonPlayer2.text = participant.nombre
                 selectedPlayer2 = participant
                 changeAvatar(participant, 2)
             }

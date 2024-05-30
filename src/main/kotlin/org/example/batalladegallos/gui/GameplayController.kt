@@ -9,11 +9,14 @@ import javafx.fxml.FXML
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.control.*
+import javafx.scene.effect.Glow
+import javafx.scene.image.Image
 import javafx.scene.text.Text
 import javafx.stage.Stage
 import javafx.util.Duration
 import org.example.batalladegallos.Model.Palabras
 import org.example.batalladegallos.Model.Participante
+import java.io.FileInputStream
 import kotlin.random.Random
 
 class GameController {
@@ -71,7 +74,7 @@ fun initialize(player1Data: Participante, player2Data: Participante) {
     player1Name.text = player1.nombre
     player2Name.text = player2.nombre
     updateAvatar(player1.urlFotoPerfil, avatarPlayer1)
-            //    updateAvatar(player2.urlFotoPerfil, avatarPlayer2)
+    updateAvatar(player2.urlFotoPerfil, avatarPlayer2)
     updateMenuItemsWords()
     startRound()
 
@@ -80,7 +83,7 @@ fun initialize(player1Data: Participante, player2Data: Participante) {
 
     private fun updateAvatar(url: String, imageView: javafx.scene.image.ImageView) {
         val avatarPath = "/org/example/batalladegallos/images/$url"
-        val image = javafx.scene.image.Image(javaClass.getResource(avatarPath).toExternalForm())
+        val image = Image(javaClass.getResource(avatarPath).toExternalForm())
         imageView.setImage(image)
     }
     private fun updateMenuItemsWords() {
@@ -105,6 +108,7 @@ fun initialize(player1Data: Participante, player2Data: Participante) {
 
     private fun startRound() {
         currentRound++
+        print("Starting round $currentRound")
         roundCounter.text = "Round: $currentRound"
         player1Name.text = player1.nombre
         player2Name.text = player2.nombre
@@ -136,33 +140,44 @@ fun initialize(player1Data: Participante, player2Data: Participante) {
         progressBar.progress -= 1.0 / 30
     }
 
-    private fun switchPlayer(currentPlayerProgressBar: ProgressBar, currentPlayerScore: Label, players: List<ProgressBar>, labels: List<Label>) {
-        currentPlayerProgressBar.style = "-fx-accent: gray;"
-        try {
-            currentPlayerScore.text = (currentPlayerScore.text.toDouble() + aplaudimetroProgress.progress).toString()
-        } catch (e: NumberFormatException) {
-            currentPlayerScore.text = aplaudimetroProgress.progress.toString()
-            println("Error: ${e.message}")
-        }
-        currentPlayer = 3 - currentPlayer
-        val nextPlayerProgressBar = players[currentPlayer - 1]
-        val nextPlayerLabel = labels[currentPlayer - 1]
-        nextPlayerProgressBar.progress = 1.0
-        nextPlayerProgressBar.style = "-fx-accent: blue;"
-        nextPlayerLabel.text = "${(nextPlayerProgressBar.progress * 30).toInt()} segundos restantes"
-        if (currentPlayer == 1) {
-            currentRound++
-            if (currentRound < 3) {
-                startRound()
-            } else {
-                goRanking()
-            }
+ private fun switchPlayer(currentPlayerProgressBar: ProgressBar, currentPlayerScore: Label, players: List<ProgressBar>, labels: List<Label>) {
+    currentPlayerProgressBar.style = "-fx-accent: gray;"
+    try {
+        currentPlayerScore.text = (currentPlayerScore.text.toDouble() + aplaudimetroProgress.progress).toString()
+
+    } catch (e: NumberFormatException) {
+
+        println("Error: ${e.message}")
+    }
+    currentPlayer = 3 - currentPlayer
+    val nextPlayerProgressBar = players[currentPlayer - 1]
+    val nextPlayerLabel = labels[currentPlayer - 1]
+    nextPlayerProgressBar.progress = 1.0
+    nextPlayerLabel.text = "${(nextPlayerProgressBar.progress * 30).toInt()} segundos restantes"
+    if (currentPlayer == 1) {
+        currentRound++
+        rondaCounter.text = "Round: $currentRound"
+        if (currentRound < 3) {
+            startRound()
+        } else {
+            goRanking()
         }
     }
 
+}
+
     private fun updateLabel(progressBar: ProgressBar, label: Label) {
-        label.text = "${(progressBar.progress * 30).toInt()} segundos restantes"
+        println(label)
+        println(" dopfskopdsfkoprfdskopfdskdopsfkfdopsk ")
+        val secondsLeft = (progressBar.progress * 30).toInt()
+        if (secondsLeft  <= 0) {
+            label.text = "EsperandoTurno"
+        } else {
+            label.text = "$secondsLeft segundos"
+        }
+
     }
+
 
     fun goRanking() {
         siguientePantalla = "/org/example/batalladegallos/gui/ranking-screen.fxml"

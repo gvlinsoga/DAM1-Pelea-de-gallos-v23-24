@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -7,6 +8,9 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.batalladegallos.gui.RankingController">
+   <stylesheets>
+      <URL value="@../rankingstyle.css" />
+   </stylesheets>
    <children>
       <ImageView fitHeight="800.0" fitWidth="1280.0" layoutX="675.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -24,7 +28,7 @@
       </VBox>
       <VBox alignment="CENTER" layoutX="446.0" layoutY="15.0" prefHeight="155.0" prefWidth="210.0">
          <children>
-            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="RANKING GALLOS">
+            <Text fx:id="titleRanking" strokeType="OUTSIDE" strokeWidth="0.0" text="RANKING GALLOS">
                <font>
                   <Font size="48.0" />
                </font>
@@ -33,11 +37,7 @@
       </VBox>
       <VBox alignment="CENTER" layoutX="519.0" layoutY="634.0" prefHeight="47.0" prefWidth="242.0">
          <children>
-            <Button fx:id="irMenuBoton" mnemonicParsing="false" text="Menú">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin></Button>
-            <Button fx:id="salirBoton" mnemonicParsing="false" text="Salir">
+            <Button fx:id="salirBoton" mnemonicParsing="false" onAction="#salirR" prefHeight="45.0" prefWidth="96.0" text="Salir">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin></Button>
