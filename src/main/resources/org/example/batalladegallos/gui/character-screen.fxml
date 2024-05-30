@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -7,6 +8,10 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.batalladegallos.gui.CharacterSelectionController">
+   <stylesheets>
+      <URL value="@../characterstyle.css" />
+   </stylesheets>
+
    <children>
       <ImageView fitHeight="800.0" fitWidth="1280.0" layoutX="183.0" layoutY="46.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <image>
@@ -15,7 +20,7 @@
       </ImageView>
       <VBox alignment="TOP_CENTER" layoutX="58.0" layoutY="68.0" prefHeight="620.0" prefWidth="450.0" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="775.0" AnchorPane.topAnchor="65.0">
          <children>
-            <Text id="player1" strokeType="OUTSIDE" strokeWidth="0.0" text="GALLO 1" textAlignment="CENTER">
+            <Text id="player1" fx:id="gallo1" strokeType="OUTSIDE" strokeWidth="0.0" text="GALLO 1" textAlignment="CENTER">
                <VBox.margin>
                   <Insets bottom="8.0" top="50.0" />
                </VBox.margin>
@@ -31,7 +36,7 @@
                   <Image url="@../images/avatarEmpty.png" />
                </image>
             </ImageView>
-            <MenuButton fx:id="menuButtonPlayer1" mnemonicParsing="false" text="Personaje 1">
+            <MenuButton fx:id="menuButtonPlayer1" mnemonicParsing="false" prefHeight="55.0" prefWidth="229.0" text="Personaje 1">
               <items>
                 <MenuItem mnemonicParsing="false" text="Action 1" />
                 <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -41,7 +46,7 @@
       </VBox>
       <VBox alignment="TOP_CENTER" layoutX="757.0" layoutY="90.0" prefHeight="620.0" prefWidth="450.0" AnchorPane.bottomAnchor="115.0" AnchorPane.leftAnchor="775.0" AnchorPane.rightAnchor="55.0" AnchorPane.topAnchor="65.0">
          <children>
-            <Text id="player2" strokeType="OUTSIDE" strokeWidth="0.0" text="GALLO 2" textAlignment="CENTER">
+            <Text id="player2" fx:id="gallo2" strokeType="OUTSIDE" strokeWidth="0.0" text="GALLO 2" textAlignment="CENTER">
                <font>
                   <Font size="28.0" />
                </font>
@@ -75,9 +80,9 @@
                   <Insets top="16.0" />
                </VBox.margin>
             </ImageView>
-            <Text id="versusText" strokeType="OUTSIDE" strokeWidth="0.0" text="VS" textAlignment="CENTER">
+            <Text id="versusText" strokeType="OUTSIDE" strokeWidth="0.0" text="VS" textAlignment="CENTER" wrappingWidth="56.40799903869629">
                <font>
-                  <Font size="57.0" />
+                  <Font size="58.0" />
                </font>
                <VBox.margin>
                   <Insets bottom="200.0" top="80.0" />

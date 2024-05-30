@@ -1,11 +1,12 @@
-.sedgwick-ave-regular {
-    font-family: "Sedgwick Ave", cursive;
-    font-weight: 400;
-    font-style: normal;
+@font-face {
+    font-family: 'GraffittiFont';
+    src: url('../../../fonts/sedgwickavedisplay-regular.ttf');
 }
-
+.root {
+    -fx-font-family: 'GraffittiFont';
+}
 #botonLore, #nuevoGalloBoton, #jugarBoton, #botonSalir {
-    -fx-font-family: "Sedgwick Ave", cursive;
+    -fx-font-family: 'GraffittiFont';
     -fx-font-size: 16px;
     -fx-background-color: #FECC16;
     -fx-text-fill: black;
