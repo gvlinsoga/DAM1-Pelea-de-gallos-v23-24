@@ -42,16 +42,16 @@
                   <Insets top="10.0" />
                </VBox.margin></Button>
          </children></VBox>
-      <AnchorPane layoutX="485.0" layoutY="170.0" prefHeight="412.0" prefWidth="307.0">
+      <VBox alignment="CENTER" layoutX="485.0" layoutY="170.0" prefHeight="412.0" prefWidth="307.0">
          <children>
-            <TableView fx:id="tableView" prefHeight="412.0" prefWidth="311.0">
-              <columns>
-                <TableColumn fx:id="nombreColumn" prefWidth="102.0" text="Avatar" />
-                <TableColumn fx:id="urlFotoPerfilColumn" minWidth="0.0" prefWidth="107.0" text="Nombre" />
-                  <TableColumn fx:id="puntuacionColumn" prefWidth="102.0" text="Nº Victorias" />
-              </columns>
-            </TableView>
+            <ImageView fx:id="avatarPlayer1" fitHeight="100.0" fitWidth="100.0" />
+            <Label fx:id="namePlayer1" text="Name Player 1" />
+            <Label fx:id="scorePlayer1" text="Score Player 1" />
+
+            <ImageView fx:id="avatarPlayer2" fitHeight="100.0" fitWidth="100.0" />
+            <Label fx:id="namePlayer2" text="Name Player 2" />
+            <Label fx:id="scorePlayer2" text="Score Player 2" />
          </children>
-      </AnchorPane>
+      </VBox>
    </children>
 </AnchorPane>

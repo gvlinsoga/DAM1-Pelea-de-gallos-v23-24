@@ -27,7 +27,7 @@
                   <Insets bottom="8.0" top="50.0" />
                </VBox.margin>
             </Text>
-            <Label fx:id="scorePlayer2" text="SCORE: 0" />
+            <Label fx:id="scorePlayer2" text="SCORE: 0" textFill="WHITE" />
             <ImageView id="player2pfp" fx:id="avatarPlayer2" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/mrGrump.png" />
@@ -40,7 +40,7 @@
                <VBox.margin>
                   <Insets bottom="14.0" />
                </VBox.margin></ProgressBar>
-            <Label fx:id="tiempoPlayer2" text="Esperando Turno">
+            <Label fx:id="tiempoPlayer2" text="Esperando Turno" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>
@@ -69,7 +69,7 @@
                   <Insets bottom="8.0" top="50.0" />
                </VBox.margin>
             </Text>
-            <Label fx:id="scorePlayer1" text="SCORE: 0" />
+            <Label fx:id="scorePlayer1" text="SCORE: 0" textFill="WHITE" />
             <ImageView id="player1pfp" fx:id="avatarPlayer1" fitHeight="300.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../images/mittens.png" />
@@ -83,7 +83,7 @@
                   <Insets bottom="14.0" />
                </VBox.margin>
             </ProgressBar>
-            <Label fx:id="tiempoPlayer1" text="Esperando Turno">
+            <Label fx:id="tiempoPlayer1" text="Esperando Turno" textFill="WHITE">
                <font>
                   <Font size="16.0" />
                </font>
@@ -112,7 +112,7 @@
       <VBox alignment="TOP_CENTER" layoutX="516.0" layoutY="189.0" prefHeight="423.0" prefWidth="254.0" AnchorPane.bottomAnchor="188.0" AnchorPane.leftAnchor="516.0" AnchorPane.rightAnchor="510.0" AnchorPane.topAnchor="189.0">
          <children>
             <Button fx:id="goRankingButton" disable="true" mnemonicParsing="false" text="Button" visible="false" />
-            <Label fx:id="aplausosContador" prefHeight="94.0" prefWidth="227.0" text="Esperando aplausos...">
+            <Label fx:id="aplausosContador" prefHeight="94.0" prefWidth="227.0" text="Esperando aplausos..." textFill="WHITE">
                <font>
                   <Font size="20.0" />
                </font>
@@ -125,7 +125,7 @@
          </children>
       </VBox>
 
-      <Label fx:id="rondaCounter" layoutX="604.0" layoutY="140.0" text="Ronda: 1">
+      <Label fx:id="rondaCounter" layoutX="604.0" layoutY="140.0" text="Ronda: 1" textFill="WHITE">
          <font>
             <Font size="25.0" />
          </font>

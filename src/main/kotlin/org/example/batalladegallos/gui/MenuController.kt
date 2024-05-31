@@ -15,6 +15,7 @@ import java.io.File
 import java.io.IOException
 import java.nio.file.Paths
 import java.util.*
+import java.util.regex.Pattern
 
 class MenuController {
     @FXML
@@ -26,7 +27,6 @@ class MenuController {
     var salirBoton: Button = Button()
     var siguientePantalla = ""
     var siguienteTitulo = ""
-
     fun mainMenu() {
         try {
             loreBoton.setOnAction {
@@ -61,7 +61,65 @@ class MenuController {
         if (file != null) {
             println(file.absolutePath)
             loreBoton.text = "Lore: ${file.name}"
+            procesarArchivo(file)
+        } else {
+            println("No se seleccionó ningún archivo.")
         }
+    }
+
+    fun procesarArchivo(file: File) {
+    println("Procesando archivo: ${file.absolutePath}")
+
+    if (!file.exists()) {
+        println("El archivo no existe")
+    }
+
+    val lineas = file.readLines()
+
+    val palabras = mutableSetOf<String>()
+    val pattern = Pattern.compile("\\b[\\p{L}&&[^\\p{P}]]{4,}\\b")
+
+    lineas.forEach { linea ->
+        val matcher = pattern.matcher(linea.toLowerCase())
+        while (matcher.find()) {
+            val palabra = matcher.group()
+            if (!palabra.any { it.isDigit() }) {
+                palabras.add(palabra)
+            }
+        }
+    }
+
+    println("Palabras extraídas: $palabras")
+
+    val gruposDeRimas = agruparPalabrasRimadas(palabras.toList())
+
+    println("Grupos de palabras que riman:")
+    gruposDeRimas.forEach { (rima, grupo) ->
+        println("Rima con $rima -> [${grupo.joinToString(", ")}]")
+    }
+    println()
+
+    val mitad = gruposDeRimas.size / 2
+    GlobalData.palabrasRimadasPlayer1 = gruposDeRimas.entries.take(mitad).associate { it.toPair() }
+    GlobalData.palabrasRimadasPlayer2 = gruposDeRimas.entries.drop(mitad).associate { it.toPair() }
+}
+
+    fun extraerUltimaSilaba(palabra: String): String {
+        val regex = "([aeiouAEIOU]+[^aeiouAEIOU]*$)".toRegex()
+        return regex.find(palabra)?.value ?: ""
+    }
+
+    fun agruparPalabrasRimadas(palabras: List<String>): Map<String, List<String>> {
+        val gruposDeRimas = mutableMapOf<String, MutableList<String>>()
+
+        palabras.forEach { palabra ->
+            val rima = extraerUltimaSilaba(palabra)
+            if (rima.isNotEmpty()) {
+                gruposDeRimas.getOrPut(rima) { mutableListOf() }.add(palabra)
+            }
+        }
+
+        return gruposDeRimas
     }
 
     @FXML
@@ -141,17 +199,17 @@ class MenuController {
         println("Saved date: $cumple")
     }
 
-fun guardarGallo() {
-    val nombre = userName.text
-    val avatar = imageNames[currentAvatarIndex]
-    GlobalData.participants.add(Participante(nombre, avatar, 0))
-    println("Nombre: $nombre, Cumpleaños: $cumple")
-    println("participantes: ${GlobalData.participants}")
-}
+    fun guardarGallo() {
+        val nombre = userName.text
+        val avatar = imageNames[currentAvatarIndex]
+        GlobalData.participants.add(Participante(nombre, avatar, 0))
+        println("Nombre: $nombre, Cumpleaños: $cumple")
+        println("participantes: ${GlobalData.participants}")
+    }
 
-fun checkConditionsAndDisableButton() {
-    jugarBoton.isDisable = GlobalData.participants.size < 2 || loreBoton.text == "Lore"
-}
+    fun checkConditionsAndDisableButton() {
+        jugarBoton.isDisable = GlobalData.participants.size < 2 || loreBoton.text == "Lore"
+    }
 
     fun salir() {
         Platform.exit()

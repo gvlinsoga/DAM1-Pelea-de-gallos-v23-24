@@ -59,15 +59,11 @@ class GameController {
     private lateinit var player1: Participante
     private lateinit var player2: Participante
 
-
     private var currentRound = 0
     private var currentPlayer = 1
     var siguientePantalla = ""
     var siguienteTitulo = ""
     var primerCop = true
-
-    private val palabrasPlayer1 = Palabras("Rima 1", mutableListOf("Palabra 1", "Palabra 2", "Palabra 3"))
-    private val palabrasPlayer2 = Palabras("Rima 2", mutableListOf("Palabra 4", "Palabra 5", "Palabra 6"))
 
     fun initialize(player1Data: Participante, player2Data: Participante) {
         player1 = player1Data
@@ -78,38 +74,33 @@ class GameController {
         updateAvatar(player2.urlFotoPerfil, avatarPlayer2)
         updateMenuItemsWords()
         startRound()
-
     }
-
 
     private fun updateAvatar(url: String, imageView: javafx.scene.image.ImageView) {
         val avatarPath = "/org/example/batalladegallos/images/$url"
         val image = Image(javaClass.getResource(avatarPath).toExternalForm())
         imageView.setImage(image)
     }
+
     private fun updateMenuItemsWords() {
-        menuPalabrasPlayer1.items.clear()
-        menuPalabrasPlayer2.items.clear()
-        addWordsToMenu(palabrasPlayer1, menuPalabrasPlayer1)
-        addWordsToMenu(palabrasPlayer2, menuPalabrasPlayer2)
+        addWordsToMenu(GlobalData.palabrasRimadasPlayer1, menuPalabrasPlayer1)
+        addWordsToMenu(GlobalData.palabrasRimadasPlayer2, menuPalabrasPlayer2)
     }
 
-    private fun addWordsToMenu(palabras: Palabras, menu: MenuButton) {
-        palabras.palabrasDisponibles.forEach { word ->
-            val menuItem = MenuItem(word)
-            menu.items.add(menuItem)
-            menuItem.setOnAction {
-                menuItem.isDisable = true
-                menuItem.style = "-fx-text-fill: gray;"
-                palabras.palabrasUsadas.add(word)
-                palabras.palabrasDisponibles.remove(word)
-            }
+   private fun addWordsToMenu(palabras: Map<String, List<String>>, menu: MenuButton) {
+    menu.items.clear()
+    palabras.values.flatten().take(10).forEach { word ->
+        val menuItem = MenuItem(word)
+        menu.items.add(menuItem)
+        menuItem.setOnAction {
+            menuItem.isDisable = true
+            menuItem.style = "-fx-text-fill: gray;"
         }
     }
+}
 
     private fun startRound() {
         currentRound++
-        print("Starting round $currentRound")
         roundCounter.text = "Round: $currentRound"
         player1Name.text = player1.nombre
         player2Name.text = player2.nombre
@@ -117,7 +108,6 @@ class GameController {
     }
 
     private fun startTimer() {
-        println("Starting timer")
         val players = listOf(timerPlayer1, timerPlayer2)
         val labels = listOf(tiempoPlayer1, tiempoPlayer2)
         val scores = listOf(scorePlayer1, scorePlayer2)
@@ -152,7 +142,7 @@ class GameController {
         if (currentPlayer == 1) {
             currentRound++
             rondaCounter.text = "Round: $currentRound"
-            if (currentRound < 4) {
+            if (currentRound < 3) {
                 startRound()
             } else {
                 goRanking()
@@ -163,8 +153,6 @@ class GameController {
     }
 
     private fun updateLabel(progressBar: ProgressBar, label: Label) {
-        println(label)
-        println(" dopfskopdsfkoprfdskopfdskdopsfkfdopsk ")
         val secondsLeft = (progressBar.progress * 30).toInt()
         if (secondsLeft  <= 0) {
             label.text = "Esperando Turno"
@@ -174,26 +162,25 @@ class GameController {
 
     }
 
-fun aplaudimetroProgress() {
-    if (!primerCop) {
-    val randomProgress = Random.nextDouble()
-    aplaudimetroProgress.progress = randomProgress
+    fun aplaudimetroProgress() {
+        if (!primerCop) {
+            val randomProgress = Random.nextDouble()
+            aplaudimetroProgress.progress = randomProgress
 
-    val score = (randomProgress * 100).toInt()
+            val score = (randomProgress * 100).toInt()
 
-    if (currentPlayer != 1) {
-        player1.puntuacion += score
-        scorePlayer1.text = "Score: ${player1.puntuacion}"
-    } else {
-        player2.puntuacion += score
-        scorePlayer2.text =  "Score: ${player2.puntuacion}"
+            if (currentPlayer != 1) {
+                player1.puntuacion += score
+                scorePlayer1.text = "Score: ${player1.puntuacion}"
+            } else {
+                player2.puntuacion += score
+                scorePlayer2.text =  "Score: ${player2.puntuacion}"
+            }
+            aplausosContador.text = ("Aplausos: $score")
+        } else {
+            primerCop = false
+        }
     }
-    aplausosContador.text = ("Aplausos: $score")
-} else {
-    primerCop = false
-    }
-}
-
 
     fun goRanking() {
         siguientePantalla = "/org/example/batalladegallos/gui/ranking-screen.fxml"
